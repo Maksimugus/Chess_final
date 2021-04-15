@@ -122,10 +122,25 @@ public class GameManager : MonoBehaviour
 
     public void Move(GameObject piece, Vector2Int gridPoint)
     {
+        Vector2Int startGridPoint = GridForPiece(piece);
         Piece pieceComponent = piece.GetComponent<Piece>();
+        
         if (pieceComponent.type == PieceType.Pawn && !HasPawnMoved(piece))
         {
+            if(gridPoint.y == 3 || gridPoint.y == 4)
+            {
+                pieceComponent.cancapture = true;
+                Debug.Log("true");
+            }
             movedPawns.Add(piece);
+        }
+        
+        if (pieceComponent.type == PieceType.Pawn && !PieceAtGrid(gridPoint))
+        {
+            if(Math.Abs(gridPoint.x - startGridPoint.x) == 1)
+            {
+                CapturePieceAt(new Vector2Int(gridPoint.x, startGridPoint.y));
+            }
         }
 
         if(pieceComponent.type == PieceType.King)
@@ -165,10 +180,10 @@ public class GameManager : MonoBehaviour
 
         }
 
-        Vector2Int startGridPoint = GridForPiece(piece);
         pieces[startGridPoint.x, startGridPoint.y] = null;
         pieces[gridPoint.x, gridPoint.y] = piece;
         board.MovePiece(piece, gridPoint);
+        
     }
 
     public bool HasPawnMoved(GameObject pawn)
@@ -226,7 +241,8 @@ public class GameManager : MonoBehaviour
     {
         GameObject piece = PieceAtGrid(gridPoint);
 
-        if (piece == null) {
+        if (piece == null) 
+        {
             return false;
         }
 
@@ -243,7 +259,7 @@ public class GameManager : MonoBehaviour
         Player tempPlayer = currentPlayer;
         currentPlayer = otherPlayer;
         otherPlayer = tempPlayer;
-        //System.Threading.Thread.Sleep(1000);
+        
         if(currentPlayer == black)
         {
             view.transform.position = new Vector3(0.02f, 6f, 6.5f);

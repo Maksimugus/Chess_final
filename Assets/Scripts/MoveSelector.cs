@@ -41,10 +41,10 @@ public class MoveSelector : MonoBehaviour
             {
                 GameObject piece = GameManager.instance.pieces[gridPoint.x, gridPoint.y];
                 if(piece!=null)
-                if (piece.Equals(movingPiece))
-                {
-                    CancelMove();
-                }
+                    if (piece.Equals(movingPiece))
+                    {
+                        CancelMove();
+                    }
 
                 if (!moveLocations.Contains(gridPoint))
                 {

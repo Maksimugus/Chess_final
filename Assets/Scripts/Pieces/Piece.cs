@@ -6,6 +6,8 @@ public enum PieceType {King, Queen, Bishop, Knight, Rook, Pawn};
 
 public abstract class Piece : MonoBehaviour
 {
+
+    public bool cancapture;
     public int movecount;
     public PieceType type;
 

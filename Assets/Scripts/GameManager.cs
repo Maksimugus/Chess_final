@@ -138,16 +138,18 @@ public class GameManager : MonoBehaviour
         {
             if(gridPoint.y == 7)
             {
-                pieces[gridPoint.x, 7] = null;
+                pieces[startGridPoint.x, 6] = null;
                 Destroy(piece);
                 AddPiece(whiteQueen, white, gridPoint.x, 7);
+                return;
             }
 
             if(gridPoint.y == 0)
             {
-                pieces[gridPoint.x, 0] = null;
+                pieces[startGridPoint.x, 1] = null;
                 Destroy(piece);
                 AddPiece(blackQueen, black, gridPoint.x, 0);
+                return;
             }
         }
         

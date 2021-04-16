@@ -8,7 +8,6 @@ public abstract class Piece : MonoBehaviour
 {
 
     public bool cancapture;
-    public int movecount;
     public PieceType type;
 
     protected Vector2Int[] RookDirections = {new Vector2Int(0,1), new Vector2Int(1, 0),

@@ -51,6 +51,20 @@ public class MoveSelector : MonoBehaviour
                     return;
                 }
 
+                Piece mP = movingPiece.GetComponent<Piece>();
+                Vector2Int startGridPoint = GameManager.instance.GridForPiece(movingPiece);
+                if (mP.type == PieceType.Pawn && piece == null)
+                {
+                    if (gridPoint.x - startGridPoint.x == 1)
+                    {
+                        GameManager.instance.CapturePieceAt(new Vector2Int(gridPoint.x, startGridPoint.y));
+                    }
+                    if (gridPoint.x - startGridPoint.x == -1)
+                    {
+                        GameManager.instance.CapturePieceAt(new Vector2Int(gridPoint.x, startGridPoint.y));
+                    }
+                }
+
                 if (GameManager.instance.PieceAtGrid(gridPoint) == null)
                 {
                     GameManager.instance.Move(movingPiece, gridPoint);

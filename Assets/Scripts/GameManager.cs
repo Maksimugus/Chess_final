@@ -130,19 +130,27 @@ public class GameManager : MonoBehaviour
             if(gridPoint.y == 3 || gridPoint.y == 4)
             {
                 pieceComponent.cancapture = true;
-                Debug.Log("true");
             }
             movedPawns.Add(piece);
         }
-        
-        if (pieceComponent.type == PieceType.Pawn && !PieceAtGrid(gridPoint))
+
+        if(pieceComponent.type == PieceType.Pawn)
         {
-            if(Math.Abs(gridPoint.x - startGridPoint.x) == 1)
+            if(gridPoint.y == 7)
             {
-                CapturePieceAt(new Vector2Int(gridPoint.x, startGridPoint.y));
+                pieces[gridPoint.x, 7] = null;
+                Destroy(piece);
+                AddPiece(whiteQueen, white, gridPoint.x, 7);
+            }
+
+            if(gridPoint.y == 0)
+            {
+                pieces[gridPoint.x, 0] = null;
+                Destroy(piece);
+                AddPiece(blackQueen, black, gridPoint.x, 0);
             }
         }
-
+        
         if(pieceComponent.type == PieceType.King)
         {
             if(flagA1 && gridPoint.x == 2 && gridPoint.y == 0)

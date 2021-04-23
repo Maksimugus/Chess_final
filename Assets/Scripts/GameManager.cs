@@ -21,7 +21,10 @@ public class GameManager : MonoBehaviour
     public GameObject blackKnight;
     public GameObject blackRook;
     public GameObject blackPawn;
-    
+
+    public GameObject text1;
+    public GameObject text2;
+
     public GameObject view;
 
     public GameObject[,] pieces;
@@ -31,7 +34,7 @@ public class GameManager : MonoBehaviour
     private Player black;
     public Player currentPlayer;
     public Player otherPlayer;
-    
+
 
     public bool flagA1;
     public bool flagH1;
@@ -48,7 +51,7 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    void Start ()
+    void Start()
     {
         pieces = new GameObject[8, 8];
         movedPawns = new List<GameObject>();
@@ -105,7 +108,7 @@ public class GameManager : MonoBehaviour
         pieces[col, row] = pieceObject;
     }
 
-    
+
 
     public List<Vector2Int> MovesForPiece(GameObject pieceObject)
     {
@@ -124,19 +127,19 @@ public class GameManager : MonoBehaviour
     {
         Vector2Int startGridPoint = GridForPiece(piece);
         Piece pieceComponent = piece.GetComponent<Piece>();
-        
+
         if (pieceComponent.type == PieceType.Pawn && !HasPawnMoved(piece))
         {
-            if(gridPoint.y == 3 || gridPoint.y == 4)
+            if (gridPoint.y == 3 || gridPoint.y == 4)
             {
                 pieceComponent.cancapture = true;
             }
             movedPawns.Add(piece);
         }
 
-        if(pieceComponent.type == PieceType.Pawn)
+        if (pieceComponent.type == PieceType.Pawn)
         {
-            if(gridPoint.y == 7)
+            if (gridPoint.y == 7)
             {
                 pieces[startGridPoint.x, 6] = null;
                 Destroy(piece);
@@ -144,7 +147,7 @@ public class GameManager : MonoBehaviour
                 return;
             }
 
-            if(gridPoint.y == 0)
+            if (gridPoint.y == 0)
             {
                 pieces[startGridPoint.x, 1] = null;
                 Destroy(piece);
@@ -152,10 +155,10 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
-        
-        if(pieceComponent.type == PieceType.King)
+
+        if (pieceComponent.type == PieceType.King)
         {
-            if(flagA1 && gridPoint.x == 2 && gridPoint.y == 0)
+            if (flagA1 && gridPoint.x == 2 && gridPoint.y == 0)
             {
                 GameObject castle = PieceAtGrid(new Vector2Int(0, 0));
                 Vector2Int gp = new Vector2Int(3, 0);
@@ -193,7 +196,7 @@ public class GameManager : MonoBehaviour
         pieces[startGridPoint.x, startGridPoint.y] = null;
         pieces[gridPoint.x, gridPoint.y] = piece;
         board.MovePiece(piece, gridPoint);
-        
+
     }
 
     public bool HasPawnMoved(GameObject pawn)
@@ -206,7 +209,17 @@ public class GameManager : MonoBehaviour
         GameObject pieceToCapture = PieceAtGrid(gridPoint);
         if (pieceToCapture.GetComponent<Piece>().type == PieceType.King)
         {
-            Debug.Log(currentPlayer.name + " wins!");
+            if(currentPlayer == white)
+            {
+                GameObject message = Instantiate(text1, new Vector3(0,15,-861), new Quaternion(0,90,-45,0), gameObject.transform);
+                message.SetActive(true);
+            }
+            else
+            {
+                GameObject message = Instantiate(text2, new Vector3(0,15,-861), new Quaternion(180,90,-45,0), gameObject.transform);
+                message.SetActive(true);
+            }
+            
             Destroy(board.GetComponent<TileSelector>());
             Destroy(board.GetComponent<MoveSelector>());
         }
@@ -215,7 +228,7 @@ public class GameManager : MonoBehaviour
         Destroy(pieceToCapture);
     }
 
-    
+
 
     public bool DoesPieceBelongToCurrentPlayer(GameObject piece)
     {
@@ -233,7 +246,7 @@ public class GameManager : MonoBehaviour
 
     public Vector2Int GridForPiece(GameObject piece)
     {
-        for (int i = 0; i < 8; i++) 
+        for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
@@ -251,7 +264,7 @@ public class GameManager : MonoBehaviour
     {
         GameObject piece = PieceAtGrid(gridPoint);
 
-        if (piece == null) 
+        if (piece == null)
         {
             return false;
         }
@@ -269,8 +282,8 @@ public class GameManager : MonoBehaviour
         Player tempPlayer = currentPlayer;
         currentPlayer = otherPlayer;
         otherPlayer = tempPlayer;
-        
-        if(currentPlayer == black)
+
+        if (currentPlayer == black)
         {
             view.transform.position = new Vector3(0.02f, 6f, 6.5f);
             view.transform.rotation = new Quaternion(0, 180, -76.5f, 0);
@@ -281,7 +294,7 @@ public class GameManager : MonoBehaviour
             view.transform.position = new Vector3(0.02f, 6f, -6.5f);
             view.transform.rotation = new Quaternion(76.5f, 0, 0, 180);
         }
-        
+
     }
 
     public void CanWhiteKingRokA1()
@@ -292,19 +305,21 @@ public class GameManager : MonoBehaviour
 
     public void CanWhiteKingRokH1()
     {
-        if (pieces[4, 0] == null  || pieces[7, 0] == null)
+        if (pieces[4, 0] == null || pieces[7, 0] == null)
             flagH1 = false;
     }
 
     public void CanBlackKingRokA8()
     {
-        if ( pieces[4, 7] == null || pieces[0, 7] == null)
+        if (pieces[4, 7] == null || pieces[0, 7] == null)
             flagA8 = false;
     }
 
     public void CanBlackKingRokH8()
     {
-        if(pieces[4, 7] == null || pieces[7, 7] == null)
+        if (pieces[4, 7] == null || pieces[7, 7] == null)
             flagH8 = false;
     }
+
+
 }

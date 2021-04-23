@@ -209,17 +209,17 @@ public class GameManager : MonoBehaviour
         GameObject pieceToCapture = PieceAtGrid(gridPoint);
         if (pieceToCapture.GetComponent<Piece>().type == PieceType.King)
         {
-            if(currentPlayer == white)
+            if (currentPlayer == white)
             {
-                GameObject message = Instantiate(text1, new Vector3(0,15,-861), new Quaternion(0,90,-45,0), gameObject.transform);
+                GameObject message = Instantiate(text1, new Vector3(0, 15, -861), new Quaternion(0, 90, -45, 0), gameObject.transform);
                 message.SetActive(true);
             }
             else
             {
-                GameObject message = Instantiate(text2, new Vector3(0,15,-861), new Quaternion(180,90,-45,0), gameObject.transform);
+                GameObject message = Instantiate(text2, new Vector3(0, 15, -861), new Quaternion(180, 90, -45, 0), gameObject.transform);
                 message.SetActive(true);
             }
-            
+
             Destroy(board.GetComponent<TileSelector>());
             Destroy(board.GetComponent<MoveSelector>());
         }
